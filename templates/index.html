@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>식물 성장 체크 & 도우미</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"></script> 
+
+    <!-- get data from server -->
+    <script>
+        var data  = `{{data}}`
+    </script>
+</head>
+<body>
+    <h1>식물 성장 체크 & 도우미</h1>
+    <div class="container">
+        <div class="video-section">
+            <h2>실시간 영상</h2>
+            
+            <video id="video" width="640" height="640" autoplay></video>
+        </div>
+        <div class="data-show">
+            <table class="data-table">
+                <tr>
+                    <th>온도(°C)</th>
+                    <th>습도(%)</th>
+                    <th>조도(lx)</th>
+                    <th>성장(cm)</th>
+                </tr>
+                <tr>
+                    <td id="temp">0</td>
+                    <td id="hum">0</td>
+                    <td id="light">0</td>
+                    <td id="growth">0</td>
+                </tr>
+            </table>
+            <div class="auto-reload">
+                <span>자동</br>새로고침(10분)</span>
+                <label class="switch3 switch3" >
+                    <input type="checkbox" />
+                    <div></div>
+                </label>     
+            </div>
+
+            <div id="tab-menu">
+                <div id="tab-btn">
+                  <ul>
+                    <li class="active"><a href="#">온도</a></li>
+                    <li><a href="#">습도</a></li>
+                    <li><a href="#">조도</a></li>
+                    <li><a href="#">성장</a></li>
+                    <li>
+  
+                    </li>
+                  </ul>
+                </div>
+              
+                <div id="tab-cont">
+                    <div><canvas class="chart" id="Temperature-chart"></canvas></div>
+                    <div><canvas class="chart" id="Humidity-chart"></canvas></div>
+                    <div><canvas class="chart" id="Light-chart"></canvas></div>
+                    <div><canvas class="chart" id="Growth-chart"></canvas></div>
+                </div>
+            </div>
+            
+            <div id="watering" class="water">
+                <span draggable="false">물 주기</span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="{{ url_for('static',filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/data.js') }}"></script>
+    
+    <script>
+        let intervalID = 0;
+        $('.switch3 input').on('change', function(){
+        var dad = $(this).parent();
+        if($(this).is(':checked')){0
+            dad.addClass('switch3-checked');
+            intervalID = setInterval(req_reload, 1000*60*10);
+        }
+        else
+        {
+            dad.removeClass('switch3-checked');
+            clearInterval(intervalID);
+        }
+            
+        });
+    </script>
+
+
+</body>
+</html>
